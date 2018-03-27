@@ -44,4 +44,18 @@ public class ManagerTest extends TestCase {
 			  .header("Postman-Token", "5d15aea4-c5ba-4e67-b979-42bd52ae1ccf")
 			  .asString();
 }
+
+/**
+ * test del metodo getVehicleModels che ha il compito di recuperare tutti i modelli dall'anagrafica
+ * @throws UnirestException
+ */
+@Test
+public void testSaveMovement() throws UnirestException {
+	HttpResponse<String> response = Unirest.post("http://localhost:8080/TrackingVehicle/api/service/saveMovement")
+			  .header("Content-Type", "application/json")
+			  .header("Cache-Control", "no-cache")
+			  .header("Postman-Token", "8d4eff72-9117-41fa-8de8-29f4610e5f34")
+			  .body("{\r\n\t\"vin\":\"QWE1234567890OIUY\",\r\n\t\"modello\":\"630\",\r\n\t\"telaio\":\"12345678\",\r\n\t\"stato\":\"01\",\r\n\t\"piazzale\":\"00001\"\r\n}\r\n\r\n    ")
+			  .asString();
+}
 }
