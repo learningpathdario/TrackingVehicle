@@ -32,7 +32,7 @@ public class VehicleTracking implements IVehicleTracking {
 
 	
 	@GET
-	@Path("/getYards")
+	@Path("getYards")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response getYards() throws JsonProcessingException {
@@ -48,7 +48,7 @@ public class VehicleTracking implements IVehicleTracking {
 	
 	
 	@GET
-	@Path("/vehicleModels")
+	@Path("vehicleModels")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response getVehicleModels() throws JsonProcessingException{

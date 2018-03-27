@@ -3,7 +3,10 @@ package it.alfasoft.manager;
 
 import java.util.List;
 
+import it.alfasoft.dao.DaoTracking;
+import it.alfasoft.dao.IDaoTracking;
 import it.alfasoft.model.Veicolo;
+import it.alfasoft.model.Yard;
 
 public class ManagerServizi implements IManagerServizi {
 
@@ -41,6 +44,12 @@ public class ManagerServizi implements IManagerServizi {
 	public List<Veicolo> searchVeicoli(List<Veicolo> listaVeicoli) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Yard> getYards() {
+		IDaoTracking dao = new DaoTracking();
+		return dao.getListaYards();
 	}
 
 }

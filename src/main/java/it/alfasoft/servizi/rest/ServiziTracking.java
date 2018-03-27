@@ -18,10 +18,13 @@ import it.alfasoft.utils.ParserUtility;
 @Path("tracking")
 public class ServiziTracking {
 
-	public ServiziTracking() {
-		// TODO Auto-generated constructor stub
-	}
 	private static final Logger LOGGER = Logger.getLogger(ServiziTracking.class.getName());
+	
+	@GET
+	public Response hello() {
+		return Response.ok("ciao").build();
+	}
+	
 	@GET
 	@Path("/cercaveicolo/{vin}")
 	@Produces(MediaType.APPLICATION_JSON)

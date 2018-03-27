@@ -22,7 +22,13 @@ public class Yard implements Serializable {
 	public String getDescrYard() {
 		return descrYard;
 	}
+	
+	@Override
+	public String toString() {
+		return "Yard [codiceYard=" + codiceYard + ", descrYard=" + descrYard + "]";
+	}
 	public void setDescrYard(String descrYard) {
 		this.descrYard = descrYard;
 	}
+	
 }
