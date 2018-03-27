@@ -6,8 +6,8 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
 @XmlType(propOrder = { "vin", "modello", "telaio", "stato", "piazzale", "dataInserimento"})
+@XmlRootElement(name = "pippo")
 public class Veicolo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +21,7 @@ public class Veicolo implements Serializable {
 	String telaio = "";
 	String stato = "";
 	String piazzale = "";
-	Date dataInserimento = null;
+//	Date dataInserimento = null;
 	
 	public String getVin() {
 		return vin;
@@ -53,11 +53,11 @@ public class Veicolo implements Serializable {
 	public void setPiazzale(String piazzale) {
 		this.piazzale = piazzale;
 	}
-	public Date getDataInserimento() {
-		return dataInserimento;
-	}
-	public void setDataInserimento(Date dataInserimento) {
-		this.dataInserimento = dataInserimento;
-	}
+//	public Date getDataInserimento() {
+//		return dataInserimento;
+//	}
+//	public void setDataInserimento(Date dataInserimento) {
+//		this.dataInserimento = dataInserimento;
+//	}
 
 }
