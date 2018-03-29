@@ -21,7 +21,7 @@ public class Veicolo implements Serializable {
 	String telaio = "";
 	String stato = "";
 	String piazzale = "";
-//	Date dataInserimento = null;
+	Date dataInserimento = null;
 	
 	public String getVin() {
 		return vin;
@@ -53,11 +53,16 @@ public class Veicolo implements Serializable {
 	public void setPiazzale(String piazzale) {
 		this.piazzale = piazzale;
 	}
-//	public Date getDataInserimento() {
-//		return dataInserimento;
-//	}
-//	public void setDataInserimento(Date dataInserimento) {
-//		this.dataInserimento = dataInserimento;
-//	}
+	public Date getDataInserimento() {
+		return dataInserimento;
+	}
+	public void setDataInserimento(Date dataInserimento) {
+		this.dataInserimento = dataInserimento;
+	}
+	@Override
+	public String toString() {
+		return "Veicolo [vin=" + vin + ", modello=" + modello + ", telaio=" + telaio + ", stato=" + stato
+				+ ", piazzale=" + piazzale + ", dataInserimento=" + dataInserimento + "]";
+	}
 
 }

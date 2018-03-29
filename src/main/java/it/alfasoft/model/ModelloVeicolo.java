@@ -25,4 +25,9 @@ public class ModelloVeicolo implements Serializable {
 	public void setDescrizioneModello(String descrizioneModello) {
 		this.descrizioneModello = descrizioneModello;
 	}
+	@Override
+	public String toString() {
+		return "ModelloVeicolo [codiceModello=" + codiceModello + ", descrizioneModello=" + descrizioneModello + "]";
+	}
+	
 }

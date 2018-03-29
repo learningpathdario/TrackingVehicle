@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import it.alfasoft.model.ModelloVeicolo;
 import it.alfasoft.model.Movimento;
 import it.alfasoft.model.Veicolo;
 import it.alfasoft.model.Yard;
 
-public class DaoTracking implements IDaoTracking {
+public class DaoTracking implements IDaoModel {
 
 	/**
 	 * 
@@ -22,7 +21,7 @@ public class DaoTracking implements IDaoTracking {
 	public DaoTracking() {
 		
 	}
-
+	@Override
 	public List<Yard> getListaYards(){
 		LOGGER.info("getListaYards start");
 		Yard yard1 = new Yard();
@@ -40,43 +39,63 @@ public class DaoTracking implements IDaoTracking {
 		LOGGER.info("getListaYards end");
 		return listaYards;
 	}
-
 	@Override
-	public List<ModelloVeicolo> getListaModelloVeicoli() {
-		LOGGER.info("getListaModelloVeicoli start");
-		ModelloVeicolo modello1 = new ModelloVeicolo();
-		ModelloVeicolo modello2 = new ModelloVeicolo();
+	public Yard getYard(String id){
+		LOGGER.info("getYard start");
+		Yard yard1 = new Yard();
 		
-		modello1.setCodiceModello("100");
-		modello1.setDescrizioneModello("punto");
-		
-		modello2.setCodiceModello("200");
-		modello2.setDescrizioneModello("giulia");
-		
-		List<ModelloVeicolo> listaModelli = new ArrayList<>();
-		
-		listaModelli.add(modello1);
-		listaModelli.add(modello2);
-		LOGGER.info("getListaModelloVeicoli end");
-		return listaModelli;
+		yard1.setCodiceYard("00001");
+		yard1.setDescrYard("MIRAFIORI");
+
+
+		LOGGER.info("getYard end");
+		return yard1;
 	}
-
 	@Override
-	public boolean salvaMovimento(Veicolo veicolo) {
-		LOGGER.info("salvaMovimento start");
-		LOGGER.info("VIN: "+veicolo.getVin());
-		LOGGER.info("MODELLO: "+veicolo.getModello());
-		LOGGER.info("TELAIO: "+veicolo.getTelaio());
-		LOGGER.info("PIAZZALE: "+veicolo.getPiazzale());
-		LOGGER.info("STATO: "+veicolo.getStato());
-//		LOGGER.info("DATA INSERIMENTO: "+veicolo.getDataInserimento());
-		LOGGER.info("salvaMovimento end");
+	public boolean deleteYard(String id){
+		LOGGER.info("deleteYard start");
+		LOGGER.info("cancello il piazzale con id: "+id);
+
+		LOGGER.info("deleteYard end");
 		return true;
 	}
 
+//
+//	@Override
+//	public boolean salvaMovimento(Veicolo veicolo) {
+//		LOGGER.info("salvaMovimento start");
+//		LOGGER.info("VIN: "+veicolo.getVin());
+//		LOGGER.info("MODELLO: "+veicolo.getModello());
+//		LOGGER.info("TELAIO: "+veicolo.getTelaio());
+//		LOGGER.info("PIAZZALE: "+veicolo.getPiazzale());
+//		LOGGER.info("STATO: "+veicolo.getStato());
+////		LOGGER.info("DATA INSERIMENTO: "+veicolo.getDataInserimento());
+//		LOGGER.info("salvaMovimento end");
+//		return true;
+//	}
+
+//	@Override
+//	public List<Movimento> getListaMovimenti() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	@Override
-	public List<Movimento> getListaMovimenti() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean updateYard(Yard yard) {
+		LOGGER.info("updateYard start");
+		LOGGER.info("codice yard: "+yard.getCodiceYard());
+		LOGGER.info("Descr yard: "+yard.getDescrYard());
+//		LOGGER.info("DATA INSERIMENTO: "+veicolo.getDataInserimento());
+		LOGGER.info("updateYard end");
+		return true;
 	}
+	@Override
+	public boolean insertYard(Yard yard) {
+		LOGGER.info("insertYard start");
+		LOGGER.info("codice yard: "+yard.getCodiceYard());
+		LOGGER.info("Descr yard: "+yard.getDescrYard());
+//		LOGGER.info("DATA INSERIMENTO: "+veicolo.getDataInserimento());
+		LOGGER.info("insertYard end");
+		return true;
+	}
+
 }

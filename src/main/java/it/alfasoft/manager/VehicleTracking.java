@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import it.alfasoft.dao.DaoModels;
+import it.alfasoft.dao.DaoMovements;
 import it.alfasoft.dao.DaoTracking;
 import it.alfasoft.model.ModelloVeicolo;
 import it.alfasoft.model.Veicolo;
@@ -52,8 +54,8 @@ public class VehicleTracking implements IVehicleTracking {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response getVehicleModels() throws JsonProcessingException{
-		DaoTracking daoTracking = new DaoTracking();
-		List<ModelloVeicolo> listaModelliVeicolo = daoTracking.getListaModelloVeicoli();
+		DaoModels daoModels = new DaoModels();
+		List<ModelloVeicolo> listaModelliVeicolo = daoModels.getListaModelliVeicolo();
 		return  Response.ok().entity(ParserUtility.parseListObject(listaModelliVeicolo))
 				.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Credentials", "true")
@@ -61,24 +63,31 @@ public class VehicleTracking implements IVehicleTracking {
 				.build();
 	}
 	
-	@POST
-	@Path("/saveMovement")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public Response saveMovement(Veicolo veicolo) {
-		DaoTracking daoTracking = new DaoTracking();
-		boolean save = daoTracking.salvaMovimento(veicolo);
-//		String result = "veicolo ok : " + veicolo;
-		return Response.status(201).entity(veicolo)
-				.header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Credentials", "true")
-				.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
-				.build();
-	}
+//	@POST
+//	@Path("/saveMovement")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Override
+//	public Response saveMovement(Veicolo veicolo) {
+//		DaoMovements daoMovements = new DaoMovements();
+//		boolean save = daoMovements.salvaMovimento(veicolo);
+////		String result = "veicolo ok : " + veicolo;
+//		return Response.status(201).entity(veicolo)
+//				.header("Access-Control-Allow-Origin", "*")
+//				.header("Access-Control-Allow-Credentials", "true")
+//				.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+//				.build();
+//	}
 
 	@Override
 	public List<Veicolo> getMovements() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Response saveMovement(Veicolo veicolo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

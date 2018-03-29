@@ -4,7 +4,7 @@ package it.alfasoft.manager;
 import java.util.List;
 
 import it.alfasoft.dao.DaoTracking;
-import it.alfasoft.dao.IDaoTracking;
+import it.alfasoft.dao.IDaoModel;
 import it.alfasoft.model.Veicolo;
 import it.alfasoft.model.Yard;
 
@@ -48,7 +48,7 @@ public class ManagerServizi implements IManagerServizi {
 
 	@Override
 	public List<Yard> getYards() {
-		IDaoTracking dao = new DaoTracking();
+		IDaoModel dao = new DaoTracking();
 		return dao.getListaYards();
 	}
 

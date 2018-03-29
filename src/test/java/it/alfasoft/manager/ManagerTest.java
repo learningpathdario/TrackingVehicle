@@ -48,16 +48,18 @@ public class ManagerTest extends TestCase {
 }
 
 /**
- * test del metodo getVehicleModels che ha il compito di recuperare tutti i modelli dall'anagrafica
+ * test del metodo testSaveMovement che ha il compito di salvare il movimento su db
  * @throws UnirestException
  */
 @Test
 public void testSaveMovement() throws UnirestException {
-	HttpResponse<String> response = Unirest.post("http://localhost:8080/TrackingVehicle/api/service/saveMovement")
-			  .header("Content-Type", "application/json")
-			  .header("Cache-Control", "no-cache")
-			  .header("Postman-Token", "8d4eff72-9117-41fa-8de8-29f4610e5f34")
-			  .body("{\r\n\t\"vin\":\"QWE1234567890OIUY\",\r\n\t\"modello\":\"630\",\r\n\t\"telaio\":\"12345678\",\r\n\t\"stato\":\"01\",\r\n\t\"piazzale\":\"00001\"\r\n}\r\n\r\n    ")
-			  .asString();
+	HttpResponse<String> response = Unirest.post("http://localhost:8080/TrackingVehicle/api/movements")
+			.header("Content-Type", "application/json")
+			.header("Cache-Control", "no-cache")
+			.header("Postman-Token", "00792100-1211-4d0b-bcfc-096823e236bd")
+			.body("{\r\n\t\"id\":\"1\",\r\n\t\"tipoMovimento\":\"ING\",\r\n\t\"codPiazzale\":\"00001\",\r\n\t\"tipoTrasporto\":\"STR\",\r\n\t\"vin\":\"1234ERTYUIOP4RTGF\",\r\n\t\"codModello\":\"199\",\r\n\t\"codTelaio\":\"12345678\",\r\n\t\"versione\":\"123\",\r\n\t\"serie\":\"1\",\r\n\t\"parkingSpot\":\"123\",\r\n\t\"numberPlate\":\"345\"\r\n\t}")
+			.asString();
 }
+
+
 }
