@@ -9,10 +9,16 @@ public class Yard implements Serializable {
 	public Yard() {
 		// TODO Auto-generated constructor stub
 	}
-	
+	private String id = "";
 	private String codiceYard = "";
 	private String descrYard = "";
 
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getCodiceYard() {
 		return codiceYard;
 	}

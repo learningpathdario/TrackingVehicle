@@ -7,9 +7,9 @@ import it.alfasoft.model.ModelloVeicolo;
 
 public interface IDaoModels extends Serializable {
 
-	public List<ModelloVeicolo> getListaModelliVeicolo();
-	public ModelloVeicolo getModelloVeicolo(String id);
-	public boolean deleteModelloVeicolo(String id);
-	public boolean updateModelloVeicolo(ModelloVeicolo modelloVeicolo);
-	public boolean insertModelloVeicolo(ModelloVeicolo modelloVeicolo);
+	public List<ModelloVeicolo> getListaModelliVeicolo() throws Exception;
+	public ModelloVeicolo getModelloVeicolo(String id) throws Exception;
+	public boolean deleteModelloVeicolo(String id) throws Exception;
+	public boolean updateModelloVeicolo(ModelloVeicolo modelloVeicolo) throws Exception;
+	public boolean insertModelloVeicolo(ModelloVeicolo modelloVeicolo) throws Exception;
 }

@@ -1,11 +1,19 @@
 package it.alfasoft.dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import it.alfasoft.model.ModelloVeicolo;
+import javax.enterprise.context.RequestScoped;
 
+import it.alfasoft.databse.ConnectionJDBC;
+import it.alfasoft.model.ModelloVeicolo;
+import it.alfasoft.utils.DateFormatUtility;
+@RequestScoped
 public class DaoModels implements IDaoModels{
 
 	/**
@@ -18,61 +26,205 @@ public class DaoModels implements IDaoModels{
 	}
 
 	@Override
-	public List<ModelloVeicolo> getListaModelliVeicolo() {
+	public List<ModelloVeicolo> getListaModelliVeicolo() throws Exception {
 		LOGGER.info("getListaModelliVeicolo start");
-		ModelloVeicolo modelloVeicolo1 = new ModelloVeicolo();
-		ModelloVeicolo modelloVeicolo2 = new ModelloVeicolo();
-		
-		modelloVeicolo1.setCodiceModello("199");
-		modelloVeicolo1.setDescrizioneModello("PUNTO");
-		
-		modelloVeicolo2.setCodiceModello("630");
-		modelloVeicolo2.setDescrizioneModello("GIULIA");
 		
 		List<ModelloVeicolo> listaModelliVeicolo = new ArrayList<>();
-		listaModelliVeicolo.add(modelloVeicolo1);
-		listaModelliVeicolo.add(modelloVeicolo2);
+		Connection dbConnection = null;
+		Statement statement = null;
+		ConnectionJDBC c = new ConnectionJDBC();
+		
+		try {
+		
+			dbConnection =c.getORASqlConnection();
+			String query = "select ID, CODICE_MODELLO, DESCRIZIONE_MODELLO  from anagrafica_modelli";
+			statement = dbConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+            	ModelloVeicolo modelloVeicolo = new ModelloVeicolo();
+            	modelloVeicolo.setId(resultSet.getInt("ID"));
+            	modelloVeicolo.setCodiceModello(resultSet.getString("CODICE_MODELLO"));
+            	modelloVeicolo.setDescrizioneModello(resultSet.getString("DESCRIZIONE_MODELLO"));
+            	listaModelliVeicolo.add(modelloVeicolo);
+            }
+			
+		} catch (SQLException e) {
+			 
+			e.printStackTrace();
+			return null;
+		}  
+	finally {
+		if (statement != null) {
+			statement.close();
+			
+		}
+
+		if (dbConnection != null) {
+			dbConnection.close();
+		}
+	}
 		LOGGER.info("getListaModelliVeicolo end");
 		return listaModelliVeicolo;
 	}
 
 	@Override
-	public ModelloVeicolo getModelloVeicolo(String id) {
+	public ModelloVeicolo getModelloVeicolo(String id) throws Exception {
 		LOGGER.info("getModelloVeicolo start");
-		ModelloVeicolo modelloVeicolo1 = new ModelloVeicolo();
+		Connection dbConnection = null;
+		Statement statement = null;
+		ConnectionJDBC c = new ConnectionJDBC();
+		ModelloVeicolo modelloVeicolo = new ModelloVeicolo();
+		try {
 		
-		modelloVeicolo1.setCodiceModello("199");
-		modelloVeicolo1.setDescrizioneModello("PUNTO");
+			dbConnection =c.getORASqlConnection();
+			String query = "select ID, CODICE_MODELLO, DESCRIZIONE_MODELLO  from anagrafica_modelli where id = "+id;
+			statement = dbConnection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+   
+            
+            modelloVeicolo.setId(resultSet.getInt("ID"));
+            modelloVeicolo.setCodiceModello(resultSet.getString("CODICE_MODELLO"));
+            modelloVeicolo.setDescrizioneModello(resultSet.getString("DESCRIZIONE_MODELLO"));
+            			
+			} catch (SQLException e) {
+			 
+				e.printStackTrace();
+				return null;
+			}  
+		finally {
+			if (statement != null) {
+				statement.close();
+			}
 
-
-		LOGGER.info("getModelloVeicolo end");
-		return modelloVeicolo1;
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
+		LOGGER.info("getListaModelliVeicolo end");
+		return modelloVeicolo;
 	}
 
 	@Override
-	public boolean deleteModelloVeicolo(String id) {
+	public boolean deleteModelloVeicolo(String id) throws Exception {
 		LOGGER.info("deleteModelloVeicolo start");
 		LOGGER.info("cancello il modello con id: "+id);
-		LOGGER.info("deleteModelloVeicolo end");
-		return true;
-	}
+		DateFormatUtility dfu = new DateFormatUtility();
+		String dataCorrente = dfu.getCurrentTimeStamp();
 
-	@Override
-	public boolean updateModelloVeicolo(ModelloVeicolo modelloVeicolo) {
-		LOGGER.info("updateModelloVeicolo start");
-		LOGGER.info("codice modello: "+modelloVeicolo.getCodiceModello());
-		LOGGER.info("Descr modello: "+modelloVeicolo.getDescrizioneModello());
+		
+		String query = "UPDATE ANAGRAFICA_MODELLI SET"
+				+" DATA_DELETE = to_date('"+dataCorrente + "', 'dd/mm/yyyy HH24:mi:ss')) "
+				+ "where id="+id;
+		Connection dbConnection = null;
+		Statement statement = null;
+		try {
+		ConnectionJDBC connessioneJDBC = new ConnectionJDBC();
+		
+		dbConnection = connessioneJDBC.getORASqlConnection();
+		statement = dbConnection.createStatement();
+		statement.executeUpdate(query);
+		dbConnection.commit();
 		LOGGER.info("updateModelloVeicolo end");
+		} catch (SQLException e) {
+
+			return false;
+
+		}
+		finally {
+			if (statement != null) {
+				statement.close();
+			}
+
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
 		return true;
 	}
 
 	@Override
-	public boolean insertModelloVeicolo(ModelloVeicolo modelloVeicolo) {
-		LOGGER.info("salvaModelloVeicolo start");
+	public boolean updateModelloVeicolo(ModelloVeicolo modelloVeicolo) throws Exception {
+		LOGGER.info("updateModelloVeicolo start");
+		LOGGER.info("ID: "+modelloVeicolo.getId());
 		LOGGER.info("codice modello: "+modelloVeicolo.getCodiceModello());
 		LOGGER.info("Descr modello: "+modelloVeicolo.getDescrizioneModello());
-		LOGGER.info("salvaModelloVeicolo end");
+		DateFormatUtility dfu = new DateFormatUtility();
+		String dataCorrente = dfu.getCurrentTimeStamp();
+
+		
+		String query = "UPDATE ANAGRAFICA_MODELLI SET"
+				+ "ID="+modelloVeicolo.getId()+", CODICE_MODELLO ="+modelloVeicolo.getCodiceModello()+", DESCRIZIONE_MODELLO="+modelloVeicolo.getDescrizioneModello()
+				+", DATA_AGGIORNAMENTO =to_date('"+ dataCorrente + "', 'dd/mm/yyyy HH24:mi:ss'))";
+		Connection dbConnection = null;
+		Statement statement = null;
+		try {
+		ConnectionJDBC connessioneJDBC = new ConnectionJDBC();
+		
+		dbConnection = connessioneJDBC.getORASqlConnection();
+		statement = dbConnection.createStatement();
+		statement.executeUpdate(query);
+		dbConnection.commit();
+		LOGGER.info("updateModelloVeicolo end");
+		} catch (SQLException e) {
+			LOGGER.info(e.getMessage());
+			return false;
+		}
+		finally {
+			if (statement != null) {
+				statement.close();
+			}
+
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
 		return true;
 	}
 
+	@Override
+	public boolean insertModelloVeicolo(ModelloVeicolo modelloVeicolo) throws Exception {
+		LOGGER.info("insertModelloVeicolo start");
+		LOGGER.info("codice modello: "+modelloVeicolo.getCodiceModello());
+		LOGGER.info("Descr modello: "+modelloVeicolo.getDescrizioneModello());
+		
+		ConnectionJDBC connessioneJDBC = new ConnectionJDBC();
+		Connection dbConnection = null;
+		Statement statement = null;
+		DateFormatUtility dfu = new DateFormatUtility();
+		String dataCorrente = dfu.getCurrentTimeStamp();
+		String query = "INSERT INTO ANAGRAFICA_MODELLI"
+				+ "(ID, CODICE_MODELLO, DESCRIZIONE_MODELLO, DATA_INSERIMENTO) " + "VALUES"
+				+ "("+modelloVeicolo.getId()+",'"+modelloVeicolo.getCodiceModello()+"','"+modelloVeicolo.getDescrizioneModello()+ "'," 
+				+ "to_date('"
+				+ dataCorrente + "', 'dd/mm/yyyy HH24:mi:ss'))";
+		LOGGER.info("query: "+query);
+		
+		try {
+			dbConnection = connessioneJDBC.getORASqlConnection();
+			statement = dbConnection.createStatement();
+			statement.executeUpdate(query);
+			dbConnection.commit();
+			LOGGER.info("Record inserito");
+			LOGGER.info("insertModelloVeicolo end");
+			return true;
+		} catch (SQLException e) {
+
+			LOGGER.info(e.getMessage());
+			return false;
+
+		} catch (Exception e) {
+			LOGGER.info(e.getMessage());
+			return false;
+		} finally {
+
+			if (statement != null) {
+				statement.close();
+			}
+
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
+	}
 }

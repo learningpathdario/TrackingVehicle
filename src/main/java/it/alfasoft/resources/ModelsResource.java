@@ -1,9 +1,11 @@
 package it.alfasoft.resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,9 +22,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import it.alfasoft.controller.ControllerModel;
 import it.alfasoft.dao.DaoModels;
 import it.alfasoft.model.ModelloVeicolo;
-import it.alfasoft.model.Yard;
 import it.alfasoft.utils.ParserUtility;
 
+@RequestScoped
 @Path("models")
 public class ModelsResource {
 
@@ -37,7 +39,14 @@ public class ModelsResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getModels() throws JsonProcessingException {
 		DaoModels daoModels = new DaoModels();
-		List<ModelloVeicolo> listaModelliVeicolo = daoModels.getListaModelliVeicolo();
+		List<ModelloVeicolo> listaModelliVeicolo = null;;
+		try {
+			listaModelliVeicolo = daoModels.getListaModelliVeicolo();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errorr durante la get dei modelli").build();
+		}
 
 		return Response.ok().entity(ParserUtility.parseListObject(listaModelliVeicolo))
 				.header("Access-Control-Allow-Origin", "*")
@@ -50,7 +59,14 @@ public class ModelsResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getYards(@PathParam("id") String id) throws JsonProcessingException {
 		DaoModels daoModels = new DaoModels();
-		ModelloVeicolo modelloVeicolo = daoModels.getModelloVeicolo(id);
+		ModelloVeicolo modelloVeicolo = null;
+		try {
+			modelloVeicolo = daoModels.getModelloVeicolo(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errorr durante la get del modello con id:"+id).build();
+		}
 		return  Response.ok().entity(ParserUtility.parseObject(modelloVeicolo))
 				.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Credentials", "true")
@@ -63,7 +79,14 @@ public class ModelsResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("id") String id) throws JsonProcessingException {
 		ControllerModel controllerModel = new ControllerModel();
-		boolean resultDelete = controllerModel.delete(id);
+		boolean resultDelete;
+		try {
+			resultDelete = controllerModel.delete(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errorr durante la delete del modello con ID "+id).build();
+		}
 //		return Response.ok().entity(res).build();
 		if(resultDelete) {
 		return  Response.status(200).entity("modello "+id+" cancellato")
@@ -88,7 +111,14 @@ public class ModelsResource {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		boolean resultUpdate = controllerModel.update(modelloVeicolo);
+		boolean resultUpdate;
+		try {
+			resultUpdate = controllerModel.update(modelloVeicolo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errorr durante aggiornamento del modello "+modelloVeicolo.getCodiceModello()).build();
+		}
 		LOGGER.info("update end");
 		if(resultUpdate) {
 		return  Response.ok().entity("modello "+modelloVeicolo.getCodiceModello()+" aggiornato")
@@ -109,13 +139,25 @@ public class ModelsResource {
 //		DaoModels daoModels = new DaoModels();
 		ControllerModel controllerModel = new ControllerModel();
 		ModelloVeicolo modelloVeicolo = null;
+		boolean resultCreate = false;
 		try {
 			modelloVeicolo = ParserUtility.parseString(modelloVeicoloStr, ModelloVeicolo.class);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean resultCreate = controllerModel.create(modelloVeicolo);
+		
+		try {
+			resultCreate = controllerModel.create(modelloVeicolo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la create del modello "+modelloVeicolo.getCodiceModello()).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la create del modello "+modelloVeicolo.getCodiceModello()).build();
+		}
 //		return Response.ok().entity(res).build();
 		LOGGER.info("create end");
 		if(resultCreate) {

@@ -3,8 +3,8 @@ package it.alfasoft.manager;
 
 import java.util.List;
 
-import it.alfasoft.dao.DaoTracking;
-import it.alfasoft.dao.IDaoModel;
+import it.alfasoft.dao.DaoYard;
+import it.alfasoft.dao.IDaoYard;
 import it.alfasoft.model.Veicolo;
 import it.alfasoft.model.Yard;
 
@@ -48,8 +48,14 @@ public class ManagerServizi implements IManagerServizi {
 
 	@Override
 	public List<Yard> getYards() {
-		IDaoModel dao = new DaoTracking();
-		return dao.getListaYards();
+		IDaoYard dao = new DaoYard();
+		try {
+			return dao.getListaYards();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

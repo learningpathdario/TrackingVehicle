@@ -1,6 +1,7 @@
 package it.alfasoft.resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,7 +20,6 @@ import javax.ws.rs.core.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import it.alfasoft.controller.ControllerYard;
-import it.alfasoft.dao.DaoTracking;
 import it.alfasoft.manager.IManagerServizi;
 import it.alfasoft.manager.ManagerServizi;
 import it.alfasoft.model.Yard;
@@ -45,7 +45,18 @@ public class YardsResource {
 	public Response getYards() throws JsonProcessingException {
 		LOGGER.info("getYards start");
 		ControllerYard controllerYard = new ControllerYard();
-		List<Yard> listaYards = controllerYard.getlistaYards();
+		List<Yard> listaYards;
+		try {
+			listaYards = controllerYard.getlistaYards();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la get dei piazzali").build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la get dei piazzali").build();
+		}
 		LOGGER.info("getYards end");
 		return  Response.ok().entity(ParserUtility.parseListObject(listaYards))
 				.header("Access-Control-Allow-Origin", "*")
@@ -61,7 +72,18 @@ public class YardsResource {
 		LOGGER.info("getYard start");
 		LOGGER.info("getYard id: "+id);
 		ControllerYard controllerYard = new ControllerYard();
-		Yard yards = controllerYard.getYard(id);
+		Yard yards;
+		try {
+			yards = controllerYard.getYard(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la get del piazzale con id: "+id).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la get del piazzale con id: "+id).build();
+		}
 		LOGGER.info("getYard end");
 		return  Response.ok().entity(ParserUtility.parseObject(yards))
 				.header("Access-Control-Allow-Origin", "*")
@@ -77,7 +99,18 @@ public class YardsResource {
 		LOGGER.info("delete start");
 		LOGGER.info("delete id: "+id);
 		ControllerYard controllerYard = new ControllerYard();
-		boolean resultDelete = controllerYard.delete(id);
+		boolean resultDelete = false;
+		try {
+			resultDelete = controllerYard.delete(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la delete del piazzale con id: "+id).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la delete del piazzale con id: "+id).build();
+		}
 		LOGGER.info("delete end");
 		if(resultDelete) {
 		return  Response.status(200).entity("piazzale "+id+" cancellato")
@@ -104,7 +137,17 @@ public class YardsResource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean resultDelete = controllerYard.update(yard);
+		boolean resultDelete = false;
+		try {
+			resultDelete = controllerYard.update(yard);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la update del piazzale con codice yard: "+yard.getCodiceYard()).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		LOGGER.info("update end");
 		if(resultDelete) {
 		return  Response.ok().entity("piazzale "+yard.getCodiceYard()+" aggiornato")
@@ -131,7 +174,18 @@ public class YardsResource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean resultDelete = controllerYard.create(yard);
+		boolean resultDelete;
+		try {
+			resultDelete = controllerYard.create(yard);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la insert del piazzale con codice yard: "+yard.getCodiceYard()).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(400).entity("Errore durante la insert del piazzale con codice yard: "+yard.getCodiceYard()).build();
+		}
 		LOGGER.info("create end");
 		if(resultDelete) {
 		return   Response.ok().entity("piazzale "+yard.getCodiceYard()+" creato")
@@ -141,7 +195,7 @@ public class YardsResource {
 				.build();
 //		return Response.status(200).entity("piazzale 1 creato").build();
 		}else 
-		 return Response.status(400).entity("Errore durante la create del piazzale 1").build();
+			return Response.status(400).entity("Errore durante la insert del piazzale con codice yard: "+yard.getCodiceYard()).build();
 		
 	}
 	

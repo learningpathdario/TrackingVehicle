@@ -10,14 +10,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.alfasoft.dao.DaoTracking;
+import it.alfasoft.dao.DaoYard;
 import it.alfasoft.model.ModelloVeicolo;
 import it.alfasoft.model.Yard;
 
 public class ParserUtility implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(DaoTracking.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DaoYard.class.getName());
 
 	public ParserUtility() {
 		// TODO Auto-generated constructor stub

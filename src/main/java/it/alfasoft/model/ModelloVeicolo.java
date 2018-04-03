@@ -9,10 +9,16 @@ public class ModelloVeicolo implements Serializable {
 	public ModelloVeicolo() {
 		// TODO Auto-generated constructor stub
 	}
-
+	private int id = 0;
 	private String codiceModello = "";
 	private String descrizioneModello = "";
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getCodiceModello() {
 		return codiceModello;
 	}

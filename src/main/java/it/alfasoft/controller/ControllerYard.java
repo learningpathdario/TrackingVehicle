@@ -1,9 +1,10 @@
 package it.alfasoft.controller;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
-import it.alfasoft.dao.DaoTracking;
+import it.alfasoft.dao.DaoYard;
 import it.alfasoft.model.Yard;
 
 public class ControllerYard implements Serializable {
@@ -14,33 +15,33 @@ public class ControllerYard implements Serializable {
 		
 	}
 	
-	public List<Yard> getlistaYards() {
-		DaoTracking daoTracking = new DaoTracking();
-		List<Yard> listaYards = daoTracking.getListaYards();
+	public List<Yard> getlistaYards() throws SQLException, Exception{
+		DaoYard daoYard = new DaoYard();
+		List<Yard> listaYards = daoYard.getListaYards();
 		return  listaYards;
 	}
 	
-	public Yard getYard(String id)  {
-		DaoTracking daoTracking = new DaoTracking();
-		Yard yard = daoTracking.getYard(id);
+	public Yard getYard(String id)  throws SQLException, Exception{
+		DaoYard daoYard = new DaoYard();
+		Yard yard = daoYard.getYard(id);
 		return  yard;
 	}
 	
-	public boolean delete(String id) {
-		DaoTracking daoTracking = new DaoTracking();
-		boolean resultDelete = daoTracking.deleteYard(id);
+	public boolean delete(String id) throws SQLException, Exception{
+		DaoYard daoYard = new DaoYard();
+		boolean resultDelete = daoYard.deleteYard(id);
 		return  resultDelete;
 	}
 	
-	public boolean update(Yard yard) {
-		DaoTracking daoTracking = new DaoTracking();
-		boolean resultUpdate = daoTracking.updateYard(yard);
+	public boolean update(Yard yard) throws SQLException, Exception{
+		DaoYard daoYard = new DaoYard();
+		boolean resultUpdate = daoYard.updateYard(yard);
 		return  resultUpdate;
 	}
 	
-	public boolean create(Yard yard) {
-		DaoTracking daoTracking = new DaoTracking();
-		boolean resultInsert = daoTracking.insertYard(yard);
+	public boolean create(Yard yard) throws SQLException, Exception{
+		DaoYard daoYard = new DaoYard();
+		boolean resultInsert = daoYard.insertYard(yard);
 		return  resultInsert;
 	}
 }
